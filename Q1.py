@@ -20,10 +20,7 @@ def getMinTour(g,n,i,current_weight):
     if promising(i,current_weight):
         if i == n-1:
             path[i+1] = path[0]
-            if g[path[i],path[0]]:
-                new_weight = current_weight + g[path[i],path[0]]
-            else:
-                new_weight = current_weight
+            new_weight = current_weight + g[path[i],path[0]]
             getMinTour(g,n,i+1,new_weight)
         elif i == n:
             min_weight = current_weight
@@ -33,7 +30,7 @@ def getMinTour(g,n,i,current_weight):
             for j in range(n):
                 if j not in path[0:i+1]:
                     path[i+1] = j
-                    if g[path[i],j]:
+                    if g[path[i],j]:   #solving case for i=-1
                         new_weight = current_weight + g[path[i],j]
                     else:
                         new_weight = current_weight
