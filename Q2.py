@@ -19,7 +19,7 @@ def getVertexCover(g,n,i):
         if i == n-1:
             if isValidCover(g,i,config):
                 min_config = getConfigSet(g,config)
-                print(min_config)
+                #print(min_config)
         else:
             config[i+1] = False
             getVertexCover(g,n,i+1)
@@ -61,15 +61,15 @@ def getConfigSet(g,config):
 
 
 
+for i in range(3,18):
+    n = i
+    weight_limit = 100
+    g = create_random_weighted_graph(n,weight_limit)
 
-n = 10
-weight_limit = 100
-g = create_random_weighted_graph(n,weight_limit)
-
-config = [None]*n
-min_config = None
-getVertexCover(g,n,-1)
-#print(config)
+    config = [None]*n
+    min_config = None
+    getVertexCover(g,n,-1)
+    print(i,min_config)
 
 
 

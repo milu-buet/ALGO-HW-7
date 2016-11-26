@@ -15,30 +15,36 @@ def create_complete_weighted_undirected_graph(n, weight_limit):
 
 
 
-def getMinTour(g,n,i,current_weight):
-    global min_weight,min_path
+def getMinTour(g,n,i):
+    global min_weight,min_path,path
+    current_weight = get_path_weight(g,i,path)
     if promising(i,current_weight):
-        if i == n-1:
-            path[i+1] = path[0]
-            new_weight = current_weight + g[path[i],path[0]]
-            getMinTour(g,n,i+1,new_weight)
-        elif i == n:
+        if i == n:
             min_weight = current_weight
             min_path = path[0:]
-            print(path,current_weight)
+            #print(path,current_weight)
+        elif i == n-1:
+            path[i+1] = path[0]
+            getMinTour(g,n,i+1)
         else:
             for j in range(n):
                 if j not in path[0:i+1]:
                     path[i+1] = j
-                    if g[path[i],j]:   #solving case for i=-1
-                        new_weight = current_weight + g[path[i],j]
-                    else:
-                        new_weight = current_weight
+                    getMinTour(g,n,i+1)
 
-                    getMinTour(g,n,i+1,new_weight)
 
+def get_path_weight(g,j,path):
+	total_weight = 0
+	for i in range(j):
+		if g[path[i],path[i+1]]:
+			total_weight+=g[path[i],path[i+1]]
+		else:
+			print(g.Edges,path[i],path[i+1])
+	return total_weight
 
 def promising(i,current_weight):
+
+    # #print(min_path)
     if min_weight is None or current_weight < min_weight:
         return True
     return False
@@ -46,15 +52,16 @@ def promising(i,current_weight):
 
 
 
-n = 15
-weight_limit = 100
-g = create_complete_weighted_undirected_graph(n,weight_limit)
-path = [None]*(n+1)
-min_weight = None
-min_path = None
+for i in range(3,10):
+    n = i
+    weight_limit = 10
+    g = create_complete_weighted_undirected_graph(n,weight_limit)
+    path = [None]*(n+1)
+    min_weight = None
+    min_path = None
 
-# print(g.Vertices)
-#print(g.Edges)
+    # print(g.Vertices)
+    #print(g.Edges)
 
-getMinTour(g,n,-1,0)
-print(min_path,min_weight)
+    getMinTour(g,n,-1)
+    print(n,min_path,min_weight)
